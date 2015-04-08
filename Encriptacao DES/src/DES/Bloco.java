@@ -88,4 +88,33 @@ public class Bloco {
         }
         return bloco_destino;
     }
+    
+    public void f_XOR(Bloco dFinal, Chave chave) {
+        Bloco bloco_destino = new Bloco();
+        for (int i = 0; i < 48; i++) {
+            bloco_destino.bits[i] = dFinal.bits[i] ^ chave.bits[i];  //Resolver esse B.O.
+        }
+    }
+    
+    public void f_divideEmOito(Bloco x){
+        Bloco b1, b2, b3, b4, b5, b6, b7, b8;
+        int k = 0;
+        b1 = f_coletaBits(x, k);
+        b2 = f_coletaBits(x, k);
+        b3 = f_coletaBits(x, k);
+        b4 = f_coletaBits(x, k);
+        b5 = f_coletaBits(x, k);
+        b6 = f_coletaBits(x, k);
+        b7 = f_coletaBits(x, k);
+        b8 = f_coletaBits(x, k);
+    }
+    
+    public Bloco f_coletaBits(Bloco x, int k){
+        Bloco temp = null;
+        for(int i = 0; i<6; i++){
+            temp.bits[i] = x.bits[k];
+            k++;
+        }
+        return temp;
+    }
 }
