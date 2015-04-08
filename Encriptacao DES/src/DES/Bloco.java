@@ -230,6 +230,13 @@ public class Bloco {
         String[] x = new String[8];
         for (int i=0; i<8; i++){
             x[i] = Integer.toString(this.S[i], 2);
+            if (x[i].length()<4){//verificacao da quantidade de bits, colocando 0 a frente dos que não tiver com 4 bits
+                String zero="";
+                for (int j=0; j<x[i].length(); j++){
+                    zero+="0";
+                }
+                x[i]=zero+""+x[i];
+            }
         }
         for(int i=0; i<4; i++){
             this.S2[i] = x[i].charAt(0);
@@ -263,8 +270,7 @@ public class Bloco {
             this.S2[i+32] = x[i+7].charAt(0);
             this.S2[i+32] = x[i+7].charAt(1);
             this.S2[i+32] = x[i+7].charAt(2);
-            this.S2[i+32] = x[i+7].charAt(3);
-            
+            this.S2[i+32] = x[i+7].charAt(3); 
         }
     }
 }
