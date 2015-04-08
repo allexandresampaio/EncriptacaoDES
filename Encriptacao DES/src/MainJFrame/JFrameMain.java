@@ -5,6 +5,9 @@
  */
 package MainJFrame;
 
+import chave.MainChave;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Ricardo
@@ -48,9 +51,19 @@ public class JFrameMain extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jTextArea1.setText("Digite algo...");
+        jTextArea1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextArea1FocusGained(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextArea1);
 
         jButton1.setText("Criptografar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,6 +107,28 @@ public class JFrameMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextArea1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextArea1FocusGained
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jTextArea1FocusGained
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        if (jPasswordField1.getPassword().length!=8) {
+            JOptionPane.showMessageDialog(null,"Digite uma senha com 8 digitos");
+            jPasswordField1.setText("");
+        
+        }else{
+        String senha="";
+        senha=String.valueOf(jPasswordField1.getPassword());
+        
+        MainChave c = new MainChave();
+        c.mMain(senha);      
+        
+        }
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
