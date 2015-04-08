@@ -112,7 +112,7 @@ public class Bloco {
         }
     }
     
-    public String f_reducao(int[] x, int flag){//reduz o bloco de 6 para 4 bits, de acordo com as tabelas de S1 a S8
+    public String f_reducao(int[] x, int flag)  {//reduz o bloco de 6 para 4 bits, de acordo com as tabelas de S1 a S8
         int[] pontas = {x[0], x[5]};
         int[] meio = {x[1], x[2], x[3], x[4]};
         int linha = Integer.parseInt(pontas[0]+""+pontas[1]);
