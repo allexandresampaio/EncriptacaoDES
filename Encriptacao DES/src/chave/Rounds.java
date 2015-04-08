@@ -68,6 +68,6 @@ public class Rounds {
         
         blocoPermanenteA=blocoA;
         blocoPermanenteB=blocoB;
-        allRounds.add(blocoA+blocoB);
+        allRounds.add(blocoPermanenteA+blocoPermanenteB);
     }    
 }
