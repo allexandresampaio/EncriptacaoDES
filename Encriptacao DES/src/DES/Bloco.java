@@ -18,6 +18,7 @@ public class Bloco {
     int[] D = new int[32];
     int[] aux = new int[32];//para fazer a inversao de D e E
     int[] S = new int[8];//arrray da reagrupação depois das tabelas S
+    int[] S2 = new int[32];//array derivado do S
     
     public int[] getE() {
         return E;
@@ -225,4 +226,45 @@ public class Bloco {
         this.S[(flag)-1] = retorno;//seta na posição do array S o valor da linha/coluna encontrado
     } 
     
+    public void conversao_S(){//converte o bloco de 8 bits com decimais para um de 32 bits binário
+        String[] x = new String[8];
+        for (int i=0; i<8; i++){
+            x[i] = Integer.toString(this.S[i], 2);
+        }
+        for(int i=0; i<4; i++){
+            this.S2[i] = x[i].charAt(0);
+            this.S2[i] = x[i].charAt(1);
+            this.S2[i] = x[i].charAt(2);
+            this.S2[i] = x[i].charAt(3);
+            this.S2[i+4] = x[i+1].charAt(0);
+            this.S2[i+4] = x[i+1].charAt(1);
+            this.S2[i+4] = x[i+1].charAt(2);
+            this.S2[i+4] = x[i+1].charAt(3);
+            this.S2[i+8] = x[i+2].charAt(0);
+            this.S2[i+8] = x[i+2].charAt(1);
+            this.S2[i+8] = x[i+2].charAt(2);
+            this.S2[i+8] = x[i+2].charAt(3);
+            this.S2[i+12] = x[i+3].charAt(0);
+            this.S2[i+12] = x[i+3].charAt(1);
+            this.S2[i+12] = x[i+3].charAt(2);
+            this.S2[i+12] = x[i+3].charAt(3);
+            this.S2[i+16] = x[i+4].charAt(0);
+            this.S2[i+16] = x[i+4].charAt(1);
+            this.S2[i+16] = x[i+4].charAt(2);
+            this.S2[i+16] = x[i+4].charAt(3);
+            this.S2[i+24] = x[i+5].charAt(0);
+            this.S2[i+24] = x[i+5].charAt(1);
+            this.S2[i+24] = x[i+5].charAt(2);
+            this.S2[i+24] = x[i+5].charAt(3);
+            this.S2[i+28] = x[i+6].charAt(0);
+            this.S2[i+28] = x[i+6].charAt(1);
+            this.S2[i+28] = x[i+6].charAt(2);
+            this.S2[i+28] = x[i+6].charAt(3);
+            this.S2[i+32] = x[i+7].charAt(0);
+            this.S2[i+32] = x[i+7].charAt(1);
+            this.S2[i+32] = x[i+7].charAt(2);
+            this.S2[i+32] = x[i+7].charAt(3);
+            
+        }
+    }
 }
