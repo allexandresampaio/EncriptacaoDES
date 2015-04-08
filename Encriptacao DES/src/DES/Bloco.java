@@ -5,6 +5,8 @@
  */
 package DES;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Allexandre
@@ -15,6 +17,8 @@ public class Bloco {
     int[] E = new int[32];
     int[] D = new int[32];
     int[] aux = new int[32];//para fazer a inversao de D e E
+    int[] S = new int[8];//arrray da reagrupação depois das tabelas S
+    int[] S2 = new int[32];//array derivado do S
     
     public int[] getE() {
         return E;
@@ -42,7 +46,7 @@ public class Bloco {
     public Bloco(){
     }
     
-    public void permuta_PI(){//permutação inicial do bloco de entrada
+    public Bloco permuta_PI(){//permutação inicial do bloco de entrada
         
         Bloco bloco_destino = new Bloco();
         
@@ -54,9 +58,10 @@ public class Bloco {
             bloco_destino.bits[i] = this.bits[PI[i] - 1];
             //System.out.print(bloco_destino.bits[i]+",");
         }
+        return bloco_destino;
     }
     
-    public void despermuta_PI(){//permutação final do bloco
+    public Bloco despermuta_PI(){//permutação final do bloco
         
         Bloco bloco_destino = new Bloco();
         
@@ -68,28 +73,33 @@ public class Bloco {
             bloco_destino.bits[i] = this.bits[PI[i] - 1];
             //System.out.print(bloco_destino.bits[i]+",");
         }
+        
+        return bloco_destino;
     }
     
-    public void divisao(Bloco x){//divide o bloco original em 2 de 32 bits
+    public void divisao(){//divide o bloco original em 2 de 32 bits
         for(int i = 0; i < 32; i++){
-            this.E[i] = this.bits[x.bits[i]];
-            this.D[i] = this.bits[x.bits[i+32]];
+            this.E[i] = this.bits[i];
+            this.D[i] = this.bits[i+32];
         }
     }
     
-    public Bloco f_expansao(Bloco x){//expande o bloco de 32 para 48 bits
+    public Bloco f_expansao(){//expande o bloco de 32 para 48 bits
         Bloco bloco_destino = new Bloco();
         
         int PI[] = {32, 1, 2, 3, 4, 5, 4, 5, 6, 7, 8, 9, 8, 9, 10, 11, 12, 13, 12, 13, 14, 15, 16, 17, 16,
         17, 18, 19, 20, 21, 20, 21, 22, 23, 24, 25, 24, 25, 26, 27, 28, 29, 28, 29, 30, 31, 32, 1};
 
         for(int i = 0; i < 64; i++){
-            bloco_destino.bits[i] = x.bits[PI[i] - 1];
+            bloco_destino.bits[i] = this.bits[PI[i] - 1];
         }
         return bloco_destino;
     }
     
-    public void f_divisao(Bloco x){//divide o bloco em 8 partes menores de 6 bits
+    public ArrayList<int[]> f_divisao(){//divide o bloco em 8 partes menores de 6 bits
+        
+        ArrayList<int[]> array = new ArrayList<>();
+        
         int[] p1 = new int[6];
         int[] p2 = new int[6];
         int[] p3 = new int[6];
@@ -100,25 +110,35 @@ public class Bloco {
         int[] p8 = new int[6];
         
         for (int i = 0; i<6; i++){
-            p1[i]= x.getBits()[i];
-            p2[i]= x.getBits()[i+6];
-            p3[i]= x.getBits()[i+12];
-            p4[i]= x.getBits()[i+18];
-            p5[i]= x.getBits()[i+24];
-            p6[i]= x.getBits()[i+30];
-            p7[i]= x.getBits()[i+36];
-            p8[i]= x.getBits()[i+42];
-            
+            p1[i]= this.getBits()[i];
+            p2[i]= this.getBits()[i+6];
+            p3[i]= this.getBits()[i+12];
+            p4[i]= this.getBits()[i+18];
+            p5[i]= this.getBits()[i+24];
+            p6[i]= this.getBits()[i+30];
+            p7[i]= this.getBits()[i+36];
+            p8[i]= this.getBits()[i+42];
         }
+        
+        array.add(p1);
+        array.add(p2);
+        array.add(p3);
+        array.add(p4);
+        array.add(p5);
+        array.add(p6);
+        array.add(p7);
+        array.add(p8);
+        
+        return array;
     }
     
-    public String f_reducao(int[] x, int flag)  {//reduz o bloco de 6 para 4 bits, de acordo com as tabelas de S1 a S8
+    public void f_reducao(int[] x, int flag)  {//reduz o bloco de 6 para 4 bits, de acordo com as tabelas de S1 a S8
         int[] pontas = {x[0], x[5]};
         int[] meio = {x[1], x[2], x[3], x[4]};
-        int linha = Integer.parseInt(pontas[0]+""+pontas[1]);
-        int coluna = Integer.parseInt(meio[0]+""+meio[1]+meio[2]+meio[3]);
-        String l = Integer.toString(linha, 2);
-        String c = Integer.toString(coluna, 2);
+        int linha = Integer.parseInt(pontas[0]+""+pontas[1]);//coloca como inteiro a concatenação dos valores
+        int coluna = Integer.parseInt(meio[0]+""+meio[1]+meio[2]+meio[3]);//coloca como inteiro a concatenação dos valores
+        String l = Integer.toString(linha, 2);//converte para string em decimal
+        String c = Integer.toString(coluna, 2);//converte para string em decimal
         int retorno=0;
         
         switch (flag){
@@ -203,6 +223,54 @@ public class Bloco {
                 break;
         }
         
-        return Integer.toString(retorno, 2);
+        this.S[(flag)-1] = retorno;//seta na posição do array S o valor da linha/coluna encontrado
     } 
+    
+    public void conversao_S(){//converte o bloco de 8 bits com decimais para um de 32 bits binário
+        String[] x = new String[8];
+        for (int i=0; i<8; i++){
+            x[i] = Integer.toString(this.S[i], 2);
+            if (x[i].length()<4){//verificacao da quantidade de bits, colocando 0 a frente dos que não tiver com 4 bits
+                String zero="";
+                for (int j=0; j<x[i].length(); j++){
+                    zero+="0";
+                }
+                x[i]=zero+""+x[i];
+            }
+        }
+        for(int i=0; i<4; i++){
+            this.S2[i] = x[i].charAt(0);
+            this.S2[i] = x[i].charAt(1);
+            this.S2[i] = x[i].charAt(2);
+            this.S2[i] = x[i].charAt(3);
+            this.S2[i+4] = x[i+1].charAt(0);
+            this.S2[i+4] = x[i+1].charAt(1);
+            this.S2[i+4] = x[i+1].charAt(2);
+            this.S2[i+4] = x[i+1].charAt(3);
+            this.S2[i+8] = x[i+2].charAt(0);
+            this.S2[i+8] = x[i+2].charAt(1);
+            this.S2[i+8] = x[i+2].charAt(2);
+            this.S2[i+8] = x[i+2].charAt(3);
+            this.S2[i+12] = x[i+3].charAt(0);
+            this.S2[i+12] = x[i+3].charAt(1);
+            this.S2[i+12] = x[i+3].charAt(2);
+            this.S2[i+12] = x[i+3].charAt(3);
+            this.S2[i+16] = x[i+4].charAt(0);
+            this.S2[i+16] = x[i+4].charAt(1);
+            this.S2[i+16] = x[i+4].charAt(2);
+            this.S2[i+16] = x[i+4].charAt(3);
+            this.S2[i+24] = x[i+5].charAt(0);
+            this.S2[i+24] = x[i+5].charAt(1);
+            this.S2[i+24] = x[i+5].charAt(2);
+            this.S2[i+24] = x[i+5].charAt(3);
+            this.S2[i+28] = x[i+6].charAt(0);
+            this.S2[i+28] = x[i+6].charAt(1);
+            this.S2[i+28] = x[i+6].charAt(2);
+            this.S2[i+28] = x[i+6].charAt(3);
+            this.S2[i+32] = x[i+7].charAt(0);
+            this.S2[i+32] = x[i+7].charAt(1);
+            this.S2[i+32] = x[i+7].charAt(2);
+            this.S2[i+32] = x[i+7].charAt(3); 
+        }
+    }
 }
