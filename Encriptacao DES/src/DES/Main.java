@@ -27,8 +27,19 @@ public class Main {
             Bloco bloco = new Bloco(itens);
             bloco = bloco.permuta_PI();
             bloco.divisao();
-            bloco.setD(bloco.f_expansao()); 
+            bloco.setD(bloco.f_expansao());
+            bloco = f_XOR(bloco.getD(), bloco.getE());
         }
 
-    }       
+    }
+    
+    public Bloco f_XOR(int[] entrada, int[] chave){//faz o XOR entre o bloco de entrada e a chave
+        Bloco retorno = new Bloco();
+        int[] ret = new int[48];
+        for (int i=0; i<48; i++){
+            ret[i]=entrada[i]^chave[i];
+        }
+        retorno.setBits(ret);
+        return retorno;
+    }
 }
