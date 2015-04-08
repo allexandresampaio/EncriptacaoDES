@@ -41,7 +41,7 @@ public class Mensagem {
         return saida;
     }
 
-    public void divide64(String texto) {
+    public ArrayList<String> divide64(String texto) {
 
         ArrayList<String> blocos = new ArrayList<>();
         int tamanho = texto.length();
@@ -67,10 +67,9 @@ public class Mensagem {
                 int k = Integer.parseInt(t, 2);
                 temp.bits[p] = k;
                 p++;
+                blocos.add(t); 
             }
-            
         }
-        
+        return blocos;
      }
-
 }
