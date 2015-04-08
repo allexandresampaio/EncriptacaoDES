@@ -84,14 +84,14 @@ public class Bloco {
         }
     }
     
-    public Bloco f_expansao(){//expande o bloco de 32 para 48 bits
-        Bloco bloco_destino = new Bloco();
+    public int[] f_expansao(){//expande o bloco de 32 para 48 bits
+        int[] bloco_destino= new int[48];
         
         int PI[] = {32, 1, 2, 3, 4, 5, 4, 5, 6, 7, 8, 9, 8, 9, 10, 11, 12, 13, 12, 13, 14, 15, 16, 17, 16,
         17, 18, 19, 20, 21, 20, 21, 22, 23, 24, 25, 24, 25, 26, 27, 28, 29, 28, 29, 30, 31, 32, 1};
 
         for(int i = 0; i < 64; i++){
-            bloco_destino.bits[i] = this.bits[PI[i] - 1];
+            bloco_destino[i] = this.bits[PI[i] - 1];
         }
         return bloco_destino;
     }
