@@ -61,16 +61,16 @@ public class Bloco {
         return bloco_destino;
     }
     
-    public Bloco despermuta_PI(){//permutação final do bloco
+    public int[] despermuta_PI(int[] x){//permutação final do bloco
         
-        Bloco bloco_destino = new Bloco();
+        int[] bloco_destino = new int[32];
         
         int PI[] = {40, 8, 48, 16, 56, 24, 64, 32, 39, 7, 47, 15, 55, 23, 63, 31, 38, 6, 46, 14, 54,
         22, 62, 30, 37, 5, 45, 13, 53, 21, 61, 29, 36, 4, 44, 12, 52, 20, 60, 28, 35, 3, 43, 11, 51,
         19, 59, 27, 34, 2, 42, 10, 50, 18, 58, 26, 33, 1, 41, 9, 49, 17, 57, 25};
 
         for(int i = 0; i < 64; i++){
-            bloco_destino.bits[i] = this.bits[PI[i] - 1];
+            bloco_destino[i] = x[PI[i] - 1];
             //System.out.print(bloco_destino.bits[i]+",");
         }
         
@@ -226,7 +226,7 @@ public class Bloco {
         this.S[(flag)-1] = retorno;//seta na posição do array S o valor da linha/coluna encontrado
     } 
     
-    public void conversao_S(){//converte o bloco de 8 bits com decimais para um de 32 bits binário
+    public int[] conversao_S(){//converte o bloco de 8 bits com decimais para um de 32 bits binário
         String[] x = new String[8];
         for (int i=0; i<8; i++){
             x[i] = Integer.toString(this.S[i], 2);
@@ -272,5 +272,6 @@ public class Bloco {
             this.S2[i+32] = x[i+7].charAt(2);
             this.S2[i+32] = x[i+7].charAt(3); 
         }
+        return this.S2;
     }
 }
