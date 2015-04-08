@@ -10,7 +10,7 @@ package DES;
  * @author Allexandre
  */
 public class Chave {
-    public void permutaInicial(Bloco x){
+    public void permutaInicial(Bloco x){//permutação inicial da chave
         
         Bloco bloco_destino = new Bloco();
         
@@ -21,7 +21,7 @@ public class Chave {
 
         for(int i = 0; i < 64; i++){
             bloco_destino.bits[i] = x.bits[PI[i] - 1];
-            System.out.print(bloco_destino.bits[i]+",");
+            //System.out.print(bloco_destino.bits[i]+",");
         }
     }
 }

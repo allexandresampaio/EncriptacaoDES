@@ -9,7 +9,7 @@ package DES;
  *
  * @author Allexandre
  */
-public class Main {
+public class Main {//usada pra testes nos métodos
     
     public static void main(String[] args) {
         
